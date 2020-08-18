@@ -184,9 +184,14 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
             if (defined('MODULE_PAYMENT_QUICKPAY_ADVANCED_GROUP' . $i) && constant('MODULE_PAYMENT_QUICKPAY_ADVANCED_GROUP' . $i) != '') {
                 $payment_options = preg_split('[\,\;]', constant('MODULE_PAYMENT_QUICKPAY_ADVANCED_GROUP' . $i));
                 foreach ($payment_options as $option) {
+
                     $cost = (MODULE_PAYMENT_QUICKPAY_ADVANCED_AUTOFEE == "No" || $option == 'viabill' ? "0" : "1");
                     if($option=="creditcard"){
-                        $optscount++;
+
+						$msg .= "<div class='creditcard_pm_title'>".$this->get_payment_options_name($option)."</div>";
+						$msg .= "<br>";
+
+						$optscount++;
                         /** Read the logos defined on admin panel **/
                         $cards = explode(";",MODULE_PAYMENT_QUICKPAY_CARD_LOGOS);
                         foreach ($cards as $optionc) {
@@ -207,8 +212,11 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
                             $msg .= tep_image($iconc,$optionc,$w,$h,'style="position:relative;border:0px;float:left;margin:'.$space.'px;" ');
                         }
 
-                        $msg .= $this->get_payment_options_name($option).'</td></tr></table>';
-              					$options_text=$msg;
+
+
+
+                        $msg .= '</td></tr></table>';
+              			$options_text=$msg;
 
                         if($qty_groups==1){
                             $selection = array(
