@@ -1,6 +1,6 @@
 <?php
 /*
-  version 1.0
+  version 1.0.0
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
