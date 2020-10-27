@@ -475,6 +475,11 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
         $qp_autocapture = (MODULE_PAYMENT_QUICKPAY_ADVANCED_AUTOCAPTURE == "No" ? "0" : "1");
         $qp_version ="v10";
 
+        //query for country codes in the database:
+        $country = isset($order->delivery['country']['title'])?$order->delivery['country']['title']:'';
+        $countries_query = tep_db_query("select countries_iso_code_3 from countries where countries_name = '" . $country . "'");
+        $country_code = tep_db_fetch_array($countries_query)["countries_iso_code_3"];
+
         /** Custom vars */
         $varsvalues = array(
             'variables[customers_id]' => $customer_id,
@@ -504,7 +509,23 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
             'variables[billing_city]' => isset($order->billing['city'])?$order->billing['city']:'',
             'variables[billing_postcode]' => isset($order->billing['postcode'])?$order->billing['postcode']:'',
             'variables[billing_state]' => isset($order->billing['state'])?$order->billing['state']:'',
-            'variables[billing_country]' => isset($order->billing['country']['title'])?$order->billing['country']['title']:''
+            'variables[billing_country]' => isset($order->billing['country']['title'])?$order->billing['country']['title']:'',
+
+            'shipping[name]' => (isset($order->delivery['firstname'])?$order->delivery['firstname']:'') . ' ' . (isset($order->delivery['lastname'])?$order->delivery['lastname']:''),
+            'shipping[company_name]' => isset($order->delivery['company'])?$order->delivery['company']:'',
+            'shipping[street]' => isset($order->delivery['street_address'])?$order->delivery['street_address']:'',
+            'shipping[city]' => isset($order->delivery['city'])?$order->delivery['city']:'',
+            'shipping[zip_code]' => isset($order->delivery['postcode'])?$order->delivery['postcode']:'',
+            'shipping[region]' => isset($order->delivery['state'])?$order->delivery['state']:'',
+            'shipping[country_code]' => $country_code,
+
+            'invoice[name]' => (isset($order->billing['firstname'])?$order->billing['firstname']:'') . ' ' . (isset($order->billing['lastname'])?$order->billing['lastname']:''),
+            'invoice[company_name]' => isset($order->billing['company'])?$order->billing['company']:'',
+            'invoice[street]' => isset($order->billing['street_address'])?$order->billing['street_address']:'',
+            'invoice[city]' => isset($order->billing['city'])?$order->billing['city']:'',
+            'invoice[zip_code]' => isset($order->billing['postcode'])?$order->billing['postcode']:'',
+            'invoice[region]' => isset($order->billing['state'])?$order->billing['state']:'',
+            'invoice[country_code]' => $country_code
         );
 
 
@@ -553,6 +574,9 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
 
         $varsvalues["variables[products]"] = html_entity_decode($ps);
         $varsvalues["variables[shopsystem]"] = "OsCommerce";
+
+        $varsvalues["shopsystem[name]"] = "OsCommerce Phoenix";
+        $varsvalues["shopsystem[version]"] = "1.0.2";
         /** end custom vars */
 
         /** Register fields to hand over */
