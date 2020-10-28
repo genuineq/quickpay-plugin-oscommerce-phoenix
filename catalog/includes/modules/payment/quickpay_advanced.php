@@ -475,7 +475,7 @@ include(DIR_FS_CATALOG.DIR_WS_CLASSES.'QuickpayApi.php');
         $qp_autocapture = (MODULE_PAYMENT_QUICKPAY_ADVANCED_AUTOCAPTURE == "No" ? "0" : "1");
         $qp_version ="v10";
 
-        //query for country codes in the database:
+        /** query for country codes in the database: */
         $country = isset($order->delivery['country']['title'])?$order->delivery['country']['title']:'';
         $countries_query = tep_db_query("select countries_iso_code_3 from countries where countries_name = '" . $country . "'");
         $country_code = tep_db_fetch_array($countries_query)["countries_iso_code_3"];
