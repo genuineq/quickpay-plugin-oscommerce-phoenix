@@ -1,6 +1,6 @@
 <?php
 /**
- * osCommerce, Open Source E-Commerce Solutions
+ * osCommerce Phoenix, Open Source E-Commerce Solutions
  * http://www.oscommerce.com
  *
  * Copyright (c) 2020 osCommerce
